@@ -1,5 +1,6 @@
 package com.example.projeto_android_06_04.ui.screen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,12 +23,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.room.util.TableInfo
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.projeto_android_06_04.viewmodels.LibraryViewModel
 
 @Composable
 fun LibraryScreen(
-    viewModel: LibraryViewModel = viewModel()
+    viewModel: LibraryViewModel = viewModel(),
+    navController: NavController
 ) {
         val booksWithReviews = viewModel.booksWithReview.collectAsStateWithLifecycle()
 
@@ -116,7 +119,14 @@ fun LibraryScreen(
 
         LazyColumn() {
             items(booksWithReviews.value) { bookWithReview ->
-                Column(modifier = Modifier.padding(8.dp)) {
+                Column(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .clickable {
+                            navController.navigate("book/${bookWithReview.book.id}")
+                        }
+                ) {
+                    Text("Id: ${bookWithReview.book.id}", style = MaterialTheme.typography.titleMedium)
                     Text("Título: ${bookWithReview.book.title}", style = MaterialTheme.typography.titleMedium)
                     Text("Autor: ${bookWithReview.book.author}", style = MaterialTheme.typography.bodyMedium)
                     Spacer(modifier = Modifier.height(8.dp))

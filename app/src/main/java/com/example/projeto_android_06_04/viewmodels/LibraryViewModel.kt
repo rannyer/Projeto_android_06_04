@@ -46,4 +46,10 @@ class LibraryViewModel(application: Application): AndroidViewModel(application) 
         }
     }
 
+    fun getBookById(bookId: Int) = dao.getBookById(bookId).stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5000),
+        null
+    )
+
 }

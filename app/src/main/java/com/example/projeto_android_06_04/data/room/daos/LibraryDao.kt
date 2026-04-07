@@ -24,4 +24,8 @@ interface LibraryDao {
     @Query("SELECT * FROM Book")
     fun getBooksWithReviews(): Flow<List<BookWithReview>>
 
+    @Query("SELECT * FROM book WHERE id = :bookId")
+    fun getBookById(bookId: Int): Flow<Book>
+
+
 }
